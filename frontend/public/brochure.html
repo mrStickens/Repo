@@ -1,0 +1,788 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Государственный Военный Госпиталь — Архитектура Здоровья</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,600;1,400&family=Montserrat:ital,wght@0,300;0,400;0,500;0,600;1,300;1,400&display=swap" rel="stylesheet">
+<style>
+/* ============================================================
+   PRINT-READY TRIFOLD BROCHURE
+   Format: A4 Landscape (297×210mm) + 3mm bleeds = 303×216mm
+   Panels: 6 (3 per side)
+   ============================================================ */
+
+*, *::before, *::after {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+@page {
+  size: 303mm 216mm;
+  margin: 0;
+}
+
+html {
+  -webkit-print-color-adjust: exact !important;
+  print-color-adjust: exact !important;
+  color-adjust: exact !important;
+}
+
+body {
+  font-family: 'Montserrat', 'Helvetica Neue', Arial, sans-serif;
+  font-weight: 300;
+  font-size: 9pt;
+  line-height: 1.6;
+  color: #1A1C1E;
+  background: #E8E8E8;
+}
+
+/* ---- CONTROL BAR (screen only) ---- */
+.controls {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  z-index: 1000;
+  background: #1A1C1E;
+  color: #FFFFFF;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 24px;
+  padding: 12px 24px;
+  font-size: 13px;
+  font-weight: 400;
+  letter-spacing: 0.02em;
+}
+
+.controls button {
+  background: #FFFFFF;
+  color: #1A1C1E;
+  border: none;
+  padding: 8px 28px;
+  font-family: 'Montserrat', sans-serif;
+  font-size: 12px;
+  font-weight: 500;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  cursor: pointer;
+  transition: opacity 0.2s;
+}
+
+.controls button:hover {
+  opacity: 0.85;
+}
+
+.controls .hint {
+  opacity: 0.6;
+  font-size: 11px;
+}
+
+@media print {
+  .controls { display: none !important; }
+  body { background: none; }
+  .page { margin: 0; box-shadow: none; }
+}
+
+/* ---- PAGE CONTAINER ---- */
+.page {
+  width: 303mm;
+  height: 216mm;
+  background: #FFFFFF;
+  position: relative;
+  overflow: hidden;
+  page-break-after: always;
+}
+
+@media screen {
+  .page {
+    margin: 60px auto 40px;
+    box-shadow: 0 2px 40px rgba(0,0,0,0.18);
+  }
+  .page:first-of-type {
+    margin-top: 80px;
+  }
+}
+
+/* ---- PANELS GRID ---- */
+.panels-grid {
+  display: grid;
+  grid-template-columns: 101mm 101mm 101mm;
+  height: 100%;
+  position: relative;
+  z-index: 2;
+}
+
+.panel {
+  position: relative;
+  height: 216mm;
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+}
+
+/* ---- FOLD MARKS (screen only, for alignment reference) ---- */
+.fold-mark {
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  width: 0;
+  border-left: 1px dashed rgba(200,200,200,0.5);
+  z-index: 5;
+}
+.fold-mark-1 { left: 101mm; }
+.fold-mark-2 { left: 202mm; }
+
+@media print {
+  .fold-mark { display: none; }
+}
+
+/* ---- TYPOGRAPHY ---- */
+h1 {
+  font-family: 'Cormorant Garamond', 'Georgia', serif;
+  font-weight: 400;
+  color: #1A1C1E;
+}
+
+h2 {
+  font-family: 'Cormorant Garamond', 'Georgia', serif;
+  font-weight: 600;
+  font-size: 16pt;
+  color: #1A1C1E;
+  margin-bottom: 8mm;
+  letter-spacing: 0.01em;
+}
+
+h3 {
+  font-family: 'Montserrat', sans-serif;
+  font-weight: 500;
+  font-size: 9pt;
+  text-transform: uppercase;
+  letter-spacing: 0.12em;
+  color: #1A1C1E;
+  margin-bottom: 4mm;
+}
+
+p {
+  margin-bottom: 3mm;
+}
+
+.caps-label {
+  font-family: 'Montserrat', sans-serif;
+  font-weight: 400;
+  font-size: 6.5pt;
+  letter-spacing: 0.22em;
+  text-transform: uppercase;
+  color: #888;
+}
+
+.silver-line {
+  width: 30mm;
+  height: 0.5px;
+  background: #D3D3D3;
+  margin: 4mm 0;
+}
+
+.silver-line-full {
+  width: 100%;
+  height: 0.5px;
+  background: #D3D3D3;
+  margin: 3mm 0;
+}
+
+/* ---- SAFE ZONE PADDINGS ---- */
+/* Left panel outer spread: left=bleed+safe, right=fold safe */
+.panel-5-content {
+  padding: 0 10mm 0 13mm;
+}
+/* Center panel: fold safe both sides */
+.panel-6-content {
+  padding: 0 10mm;
+}
+/* Right panel: left=fold safe, right=bleed+safe */
+.panel-1-content {
+  padding: 0 13mm 0 10mm;
+}
+
+/* Inner spread */
+.panel-2-content {
+  padding: 0 10mm 0 13mm;
+}
+.panel-3-content {
+  padding: 0 10mm;
+}
+.panel-4-content {
+  padding: 0 13mm 0 10mm;
+}
+
+/* ---- BOTTOM DRONE STRIP (Page 1) ---- */
+.bottom-strip {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  height: 70mm;
+  z-index: 1;
+  background-image: url('images/drone.jpg');
+  background-size: cover;
+  background-position: center 40%;
+}
+
+.bottom-strip::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: linear-gradient(to bottom, #FFFFFF 0%, rgba(255,255,255,0.92) 25%, rgba(255,255,255,0.4) 65%, rgba(255,255,255,0.1) 100%);
+}
+
+/* ============================================================
+   PAGE 1: OUTER SPREAD — Panels 5, 6, 1
+   ============================================================ */
+
+/* -- PANEL 5 (Inner Flap) -- */
+.panel-5 .desk-image {
+  width: 100%;
+  height: 58mm;
+  object-fit: cover;
+  object-position: center 60%;
+  display: block;
+}
+
+.panel-5 .text-block {
+  padding-top: 5mm;
+  padding-bottom: 2mm;
+  position: relative;
+  z-index: 3;
+}
+
+.panel-5 .text-block h2 {
+  font-size: 14pt;
+  margin-bottom: 5mm;
+}
+
+.panel-5 .text-block ul {
+  list-style: none;
+  padding: 0;
+  margin: 0 0 4mm 0;
+}
+
+.panel-5 .text-block ul li {
+  padding-left: 3mm;
+  margin-bottom: 1.5mm;
+  font-size: 8pt;
+  line-height: 1.5;
+  position: relative;
+}
+
+.panel-5 .text-block ul li::before {
+  content: '';
+  position: absolute;
+  left: 0;
+  top: 5.5pt;
+  width: 1.5mm;
+  height: 0.4px;
+  background: #D3D3D3;
+}
+
+.panel-5 .state-note {
+  font-size: 6.5pt;
+  color: #888;
+  line-height: 1.5;
+  font-style: italic;
+  margin-top: 2mm;
+  padding-top: 2mm;
+  border-top: 0.5px solid #D3D3D3;
+}
+
+/* Price micro-table */
+.price-section {
+  margin-top: 3mm;
+  padding-top: 2mm;
+  border-top: 0.5px solid #D3D3D3;
+}
+
+.price-section .price-title {
+  font-size: 6pt;
+  text-transform: uppercase;
+  letter-spacing: 0.15em;
+  color: #888;
+  margin-bottom: 1.5mm;
+  font-weight: 400;
+}
+
+.price-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: baseline;
+  font-size: 7pt;
+  line-height: 1.8;
+  color: #1A1C1E;
+}
+
+.price-row .dots {
+  flex: 1;
+  border-bottom: 0.5px dotted #D3D3D3;
+  margin: 0 1mm;
+  position: relative;
+  top: -1.5pt;
+}
+
+.price-row .price-val {
+  font-weight: 400;
+  white-space: nowrap;
+}
+
+/* -- PANEL 6 (Back Cover) -- */
+.panel-6 {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: flex-start;
+}
+
+.panel-6 .back-top {
+  padding-top: 16mm;
+  text-align: center;
+  position: relative;
+  z-index: 3;
+}
+
+.panel-6 .back-top p {
+  font-size: 8.5pt;
+  line-height: 1.6;
+  color: #1A1C1E;
+  font-weight: 300;
+}
+
+.panel-6 .qr-block {
+  margin-top: 8mm;
+  text-align: center;
+  position: relative;
+  z-index: 3;
+}
+
+.panel-6 .qr-block img {
+  width: 38mm;
+  height: 38mm;
+  object-fit: contain;
+  display: block;
+  margin: 0 auto;
+}
+
+.panel-6 .qr-block .qr-caption {
+  font-size: 6.5pt;
+  color: #888;
+  margin-top: 2mm;
+  letter-spacing: 0.02em;
+}
+
+.panel-6 .contacts {
+  margin-top: auto;
+  padding-bottom: 75mm; /* above drone strip */
+  text-align: center;
+  position: relative;
+  z-index: 3;
+}
+
+.panel-6 .contacts .site {
+  font-family: 'Montserrat', sans-serif;
+  font-size: 9pt;
+  font-weight: 500;
+  letter-spacing: 0.08em;
+  color: #1A1C1E;
+  margin-bottom: 1.5mm;
+}
+
+.panel-6 .contacts .email {
+  font-size: 8pt;
+  color: #555;
+  margin-bottom: 3mm;
+}
+
+.panel-6 .contacts .status {
+  font-size: 6.5pt;
+  color: #888;
+  letter-spacing: 0.05em;
+}
+
+/* -- PANEL 1 (Front Cover) -- */
+.panel-1 {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+}
+
+.panel-1 .cover-content {
+  text-align: center;
+  position: relative;
+  z-index: 3;
+  margin-top: -20mm;
+}
+
+.panel-1 .cover-content .caps-label {
+  margin-bottom: 8mm;
+}
+
+.panel-1 .cover-content h1 {
+  font-size: 30pt;
+  line-height: 1.15;
+  letter-spacing: 0.02em;
+  margin-bottom: 6mm;
+}
+
+.panel-1 .cover-content .subtitle {
+  font-family: 'Montserrat', sans-serif;
+  font-size: 9pt;
+  font-weight: 300;
+  font-style: italic;
+  color: #555;
+  line-height: 1.6;
+}
+
+/* ============================================================
+   PAGE 2: INNER SPREAD — Panels 2, 3, 4
+   ============================================================ */
+
+/* -- PANEL 2 (Philosophy) -- */
+.panel-2 .text-section {
+  padding-top: 13mm;
+  padding-bottom: 3mm;
+}
+
+.panel-2 .text-section h2 {
+  font-size: 16pt;
+  margin-bottom: 6mm;
+}
+
+.panel-2 .text-section p {
+  font-size: 8.5pt;
+  line-height: 1.65;
+  margin-bottom: 3mm;
+}
+
+.panel-2 .doctors-image {
+  margin-top: auto;
+  width: 100%;
+  height: 78mm;
+  object-fit: cover;
+  object-position: center 20%;
+  display: block;
+}
+
+/* -- PANEL 3 (Diagnostics) -- */
+.panel-3 .needles-container {
+  padding-top: 13mm;
+  display: flex;
+  justify-content: center;
+}
+
+.panel-3 .needles-image {
+  width: 75mm;
+  height: 75mm;
+  object-fit: cover;
+  object-position: center;
+  border-radius: 4px;
+  display: block;
+}
+
+.panel-3 .text-section {
+  padding-top: 5mm;
+}
+
+.panel-3 .text-section h2 {
+  font-size: 16pt;
+  margin-bottom: 5mm;
+}
+
+.panel-3 .text-section p {
+  font-size: 8.5pt;
+  line-height: 1.65;
+  margin-bottom: 3mm;
+}
+
+/* -- PANEL 4 (USP / Spine) -- */
+.panel-4 .text-section {
+  padding-top: 13mm;
+}
+
+.panel-4 .text-section h2 {
+  font-size: 15pt;
+  margin-bottom: 3mm;
+}
+
+.panel-4 .method-name {
+  font-weight: 500;
+  font-size: 9pt;
+  margin-bottom: 3mm;
+  line-height: 1.5;
+}
+
+.panel-4 .method-name b {
+  font-weight: 600;
+}
+
+.panel-4 .text-section p {
+  font-size: 8.5pt;
+  line-height: 1.6;
+  margin-bottom: 2mm;
+}
+
+.panel-4 .features-list {
+  list-style: none;
+  padding: 0;
+  margin: 2mm 0 0 0;
+}
+
+.panel-4 .features-list li {
+  padding-left: 3mm;
+  margin-bottom: 2mm;
+  font-size: 8pt;
+  line-height: 1.5;
+  position: relative;
+}
+
+.panel-4 .features-list li::before {
+  content: '';
+  position: absolute;
+  left: 0;
+  top: 5.5pt;
+  width: 1.5mm;
+  height: 0.4px;
+  background: #D3D3D3;
+}
+
+.panel-4 .features-list li b {
+  font-weight: 500;
+}
+
+.panel-4 .spine-container {
+  margin-top: auto;
+  display: flex;
+  justify-content: center;
+  padding-bottom: 5mm;
+}
+
+.panel-4 .spine-image {
+  height: 88mm;
+  width: auto;
+  object-fit: contain;
+  display: block;
+  opacity: 0.92;
+}
+
+/* ---- CROP / TRIM MARKS (screen only) ---- */
+.trim-marks {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  pointer-events: none;
+  z-index: 10;
+}
+
+.trim-corner {
+  position: absolute;
+  width: 8mm;
+  height: 8mm;
+}
+
+.trim-corner.tl { top: 0; left: 0; border-bottom: 0.5px solid #ccc; border-right: 0.5px solid #ccc; width: 3mm; height: 3mm; }
+.trim-corner.tr { top: 0; right: 0; border-bottom: 0.5px solid #ccc; border-left: 0.5px solid #ccc; width: 3mm; height: 3mm; }
+.trim-corner.bl { bottom: 0; left: 0; border-top: 0.5px solid #ccc; border-right: 0.5px solid #ccc; width: 3mm; height: 3mm; }
+.trim-corner.br { bottom: 0; right: 0; border-top: 0.5px solid #ccc; border-left: 0.5px solid #ccc; width: 3mm; height: 3mm; }
+
+@media print {
+  .trim-marks { display: none; }
+}
+
+/* ---- LABEL TAGS (screen only) ---- */
+.page-label {
+  position: absolute;
+  top: -22px;
+  left: 0;
+  font-family: 'Montserrat', sans-serif;
+  font-size: 10px;
+  font-weight: 400;
+  color: #999;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  z-index: 20;
+}
+
+@media print {
+  .page-label { display: none; }
+}
+</style>
+</head>
+<body>
+
+<!-- CONTROL BAR -->
+<div class="controls">
+  <span>Трифолд-буклет — Государственный Военный Госпиталь</span>
+  <button onclick="window.print()">Экспорт в PDF</button>
+  <span class="hint">Ctrl+P &rarr; Сохранить как PDF &rarr; Без полей &rarr; Фоновые рисунки: Вкл</span>
+</div>
+
+<!-- ============================================================
+     PAGE 1: OUTER SPREAD (Panels 5, 6, 1)
+     ============================================================ -->
+<div class="page" id="page1">
+  <span class="page-label">Сторона 1 — Внешняя (Outer Spread)</span>
+
+  <!-- Fold reference marks (screen only) -->
+  <div class="fold-mark fold-mark-1"></div>
+  <div class="fold-mark fold-mark-2"></div>
+
+  <!-- Trim marks -->
+  <div class="trim-marks">
+    <div class="trim-corner tl"></div>
+    <div class="trim-corner tr"></div>
+    <div class="trim-corner bl"></div>
+    <div class="trim-corner br"></div>
+  </div>
+
+  <!-- Bottom drone strip -->
+  <div class="bottom-strip"></div>
+
+  <!-- Panels -->
+  <div class="panels-grid">
+
+    <!-- PANEL 5: Inner Flap -->
+    <div class="panel panel-5">
+      <img src="images/desk.jpg" alt="Кабинет ТКМ" class="desk-image">
+      <div class="text-block panel-5-content">
+        <h2>Восстановление ресурса</h2>
+        <ul>
+          <li>Премиальные программы Check-up (1–2 дня).</li>
+          <li>Синтез МРТ-сканирования и пульсовой диагностики.</li>
+          <li>Коррекция метаболизма и хронической усталости.</li>
+          <li>Восстановление биомеханики тела и мышечного тонуса.</li>
+          <li>VIP-сопровождение и строгая конфиденциальность.</li>
+        </ul>
+
+        <div class="price-section">
+          <div class="price-title">Стоимость ключевых процедур, &yen;</div>
+          <div class="price-row"><span>Иглоукалывание по точкам</span><span class="dots"></span><span class="price-val">150</span></div>
+          <div class="price-row"><span>Лечебный массаж</span><span class="dots"></span><span class="price-val">150</span></div>
+          <div class="price-row"><span>Иглонож (1 точка)</span><span class="dots"></span><span class="price-val">200–500</span></div>
+          <div class="price-row"><span>Омоложение лица</span><span class="dots"></span><span class="price-val">180</span></div>
+          <div class="price-row"><span>Вытяжение позвонков</span><span class="dots"></span><span class="price-val">120</span></div>
+          <div class="price-row"><span>Травяные препараты</span><span class="dots"></span><span class="price-val">от 150/день</span></div>
+        </div>
+
+        <p class="state-note">Государственный стандарт гарантирует применение только сертифицированных методик.</p>
+      </div>
+    </div>
+
+    <!-- PANEL 6: Back Cover -->
+    <div class="panel panel-6">
+      <div class="back-top panel-6-content">
+        <div class="silver-line" style="margin: 0 auto 4mm;"></div>
+        <p>Официальное представительство<br>для русскоязычных пациентов.</p>
+      </div>
+
+      <div class="qr-block">
+        <img src="images/qrcode.jpg" alt="QR-код">
+        <p class="qr-caption">Наведите камеру для перехода на сайт</p>
+      </div>
+
+      <div class="contacts panel-6-content">
+        <p class="site">hospital1946.ru</p>
+        <p class="email">Email: info@hospital1946.ru</p>
+        <div class="silver-line" style="margin: 3mm auto;"></div>
+        <p class="status">Государственный статус.<br>Безупречная репутация с 1946 года.</p>
+      </div>
+    </div>
+
+    <!-- PANEL 1: Front Cover -->
+    <div class="panel panel-1">
+      <div class="cover-content panel-1-content">
+        <p class="caps-label">Государственный Военный Госпиталь&ensp;&bull;&ensp;Основан в 1946</p>
+        <div class="silver-line" style="margin: 0 auto 8mm;"></div>
+        <h1>АРХИТЕКТУРА<br>ЗДОРОВЬЯ</h1>
+        <div class="silver-line" style="margin: 0 auto 6mm;"></div>
+        <p class="subtitle">Интегративная медицина<br>и системный анализ организма.</p>
+      </div>
+    </div>
+
+  </div><!-- /panels-grid -->
+</div><!-- /page1 -->
+
+
+<!-- ============================================================
+     PAGE 2: INNER SPREAD (Panels 2, 3, 4)
+     ============================================================ -->
+<div class="page" id="page2">
+  <span class="page-label">Сторона 2 — Внутренняя (Inner Spread)</span>
+
+  <!-- Fold reference marks -->
+  <div class="fold-mark fold-mark-1"></div>
+  <div class="fold-mark fold-mark-2"></div>
+
+  <!-- Trim marks -->
+  <div class="trim-marks">
+    <div class="trim-corner tl"></div>
+    <div class="trim-corner tr"></div>
+    <div class="trim-corner bl"></div>
+    <div class="trim-corner br"></div>
+  </div>
+
+  <div class="panels-grid">
+
+    <!-- PANEL 2: Philosophy -->
+    <div class="panel panel-2">
+      <div class="text-section panel-2-content">
+        <h2>За гранью симптомов</h2>
+        <p>Традиционный протокол концентрируется на купировании симптома — изолированном лечении отдельного органа.</p>
+        <p>Интегративная медицина Китая рассматривает организм как единую биомеханическую систему. Сбой в одной структуре неминуемо запускает каскад деструктивных изменений в других.</p>
+        <p>Мы находим и устраняем первопричину патологии на клеточном уровне, объединяя высокую точность западных аппаратных исследований с системным анализом.</p>
+      </div>
+      <img src="images/doctors.jpg" alt="Коллектив ТКМ" class="doctors-image">
+    </div>
+
+    <!-- PANEL 3: Diagnostics -->
+    <div class="panel panel-3">
+      <div class="needles-container panel-3-content">
+        <img src="images/needles.jpg" alt="Акупунктура" class="needles-image">
+      </div>
+      <div class="text-section panel-3-content">
+        <h2>Системная диагностика</h2>
+        <p>Ключ к успешному лечению — прецизионная точность диагноза.</p>
+        <p>В нашем госпитале диагностику и лечение проводят исключительно профессора медицины с клиническим стажем более 20 лет.</p>
+        <p>Данные МРТ, КТ и лабораторных анализов накладываются на результаты глубокого неврологического тестирования. Это позволяет выявлять дегенеративные изменения в тканях на стадиях, когда классические аппаратные методы еще не фиксируют патологию.</p>
+      </div>
+    </div>
+
+    <!-- PANEL 4: USP / Spine -->
+    <div class="panel panel-4">
+      <div class="text-section panel-4-content">
+        <h2>Микрохирургия без скальпеля</h2>
+        <p class="method-name"><b>Методика &laquo;Иглонож&raquo; (Акупотомия)</b> — малоинвазивная технология безоперационного лечения межпозвоночных грыж, протрузий и патологий суставов.</p>
+        <p>Синтез современной микрохирургии и знаний биомеханики:</p>
+        <ul class="features-list">
+          <li><b>Микротравматичность:</b> Инструмент диаметром 0.8 мм (отсутствие шрамов).</li>
+          <li><b>Ювелирная точность:</b> Полное сохранение мышечных волокон и связок (в отличие от открытого вмешательства).</li>
+          <li><b>Безопасность:</b> Применяется локальная анестезия, исключаются риски общего наркоза.</li>
+          <li><b>Декомпрессия:</b> Моментальное снятие спазмов и восстановление питания тканей.</li>
+          <li><b>Нулевая реабилитация:</b> Отсутствие необходимости в госпитализации.</li>
+        </ul>
+      </div>
+      <div class="spine-container panel-4-content">
+        <img src="images/spine.jpg" alt="3D позвонки" class="spine-image">
+      </div>
+    </div>
+
+  </div><!-- /panels-grid -->
+</div><!-- /page2 -->
+
+</body>
+</html>
