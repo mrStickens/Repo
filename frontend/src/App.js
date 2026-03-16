@@ -1,9 +1,12 @@
 import { useState } from "react";
+import { BrowserRouter, Routes, Route } from "react-router-dom";
 import "@/App.css";
+import PricePage from "./PricePage";
+import "./PricePage.css";
 
 const BROCHURE_URL = "/brochure.html";
 
-function App() {
+const Viewer = () => {
   const [hoveredSide, setHoveredSide] = useState(null);
 
   return (
@@ -158,6 +161,17 @@ function App() {
         <p>Государственный Военный Госпиталь &bull; Отделение ТКМ &bull; Санья, Хайнань &bull; hospital1946.ru</p>
       </footer>
     </div>
+  );
+};
+
+function App() {
+  return (
+    <BrowserRouter>
+      <Routes>
+        <Route path="/" element={<Viewer />} />
+        <Route path="/price" element={<PricePage />} />
+      </Routes>
+    </BrowserRouter>
   );
 }
 
