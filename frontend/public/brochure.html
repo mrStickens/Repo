@@ -451,7 +451,7 @@ p {
 /* -- PANEL 3 (Diagnostics) -- */
 .panel-3 .needles-image {
   position: absolute;
-  bottom: 0;
+  top: 0;
   left: 0;
   width: 100%;
   height: 80mm;
@@ -461,8 +461,8 @@ p {
 }
 
 .panel-3 .text-section {
-  padding-top: 13mm;
-  padding-bottom: 84mm;
+  padding-top: 84mm;
+  padding-bottom: 13mm;
 }
 
 .panel-3 .text-section h2 {
@@ -532,6 +532,18 @@ p {
 }
 
 /* Spine image removed — panel 4 is text-only */
+
+.panel-4 .spine-image {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  width: 100%;
+  height: 80mm;
+  object-fit: contain;
+  object-position: center;
+  display: block;
+  background: #FFFFFF;
+}
 
 /* ---- CROP / TRIM MARKS (screen only) ---- */
 .trim-marks {
@@ -691,13 +703,13 @@ p {
 
     <!-- PANEL 3: Диагностика -->
     <div class="panel panel-3">
+      <img src="images/needles.jpg" alt="Акупунктура" class="needles-image">
       <div class="text-section panel-3-content">
         <h2>Руки профессора</h2>
         <p>Опытному врачу не нужен аппарат, чтобы найти проблему. Руки профессора со стажем более 20 лет чувствуют то, что не покажет снимок: начальный фиброз, глубокие спазмы, скрытые триггерные точки в мышцах.</p>
         <p>Так диагностировали задолго до появления томографов. Пальпация — основа первичной оценки в китайской ортопедии на протяжении тысячелетий.</p>
         <p>Когда нужно — подключаем аппаратные исследования: КТ, рентген, лабораторные анализы. Но начинается всё с рук.</p>
       </div>
-      <img src="images/needles.jpg" alt="Акупунктура" class="needles-image">
     </div>
 
     <!-- PANEL 4: Иглонож -->
@@ -718,6 +730,7 @@ p {
         <div class="silver-line-full"></div>
         <p style="font-size:7.5pt;color:#555;line-height:1.5;">Показания: грыжи, протрузии, остеохондроз, артрозы, эпикондилит, пяточная шпора, миофасциальные боли, спаечные процессы.</p>
       </div>
+      <img src="images/spine.jpg" alt="3D позвонки" class="spine-image">
     </div>
 
   </div><!-- /panels-grid -->
