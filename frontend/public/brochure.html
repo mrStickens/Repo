@@ -219,6 +219,29 @@ p {
 .panel-3-content { padding: 0 5mm; }
 .panel-4-content { padding: 0 8mm 0 5mm; }
 
+/* ---- TOP IMAGE STRIP (Page 1 front cover - Panel 1) ---- */
+.top-strip {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 70mm;
+  z-index: 1;
+  background-image: url('images/hospital_front.jpg');
+  background-size: cover;
+  background-position: center 45%;
+}
+
+.top-strip::after {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: linear-gradient(to top, #FFFFFF 0%, rgba(255,255,255,0.92) 25%, rgba(255,255,255,0.4) 65%, rgba(255,255,255,0.1) 100%);
+}
+
 /* ---- BOTTOM DRONE STRIP (Page 1) ---- */
 .bottom-strip {
   position: absolute;
@@ -393,24 +416,30 @@ p {
   text-align: center;
   position: relative;
   z-index: 3;
-  margin-top: -10mm;
 }
 
-.panel-1 .cover-content .caps-label {
-  margin-bottom: 8mm;
+.panel-1 .cover-title {
+  font-family: 'Cormorant Garamond', 'Georgia', serif;
+  font-size: 18pt;
+  font-weight: 600;
+  line-height: 1.3;
+  letter-spacing: 0.02em;
+  color: #000000;
+  margin-bottom: 3mm;
 }
 
-.panel-1 .cover-content h1 {
-  font-size: 20pt;
-  line-height: 1.35;
-  letter-spacing: 0.01em;
-  margin-bottom: 5mm;
+.panel-1 .cover-founded {
+  font-family: 'Montserrat', sans-serif;
+  font-size: 9pt;
   font-weight: 400;
+  letter-spacing: 0.08em;
+  color: #555;
+  margin-bottom: 0;
 }
 
 .panel-1 .cover-content .subtitle {
   font-family: 'Montserrat', sans-serif;
-  font-size: 9pt;
+  font-size: 8.5pt;
   font-weight: 300;
   font-style: italic;
   color: #555;
@@ -657,12 +686,13 @@ p {
 
     <!-- PANEL 1: Front Cover -->
     <div class="panel panel-1">
+      <!-- Top image strip with fade -->
+      <div class="top-strip"></div>
       <div class="cover-content panel-1-content">
-        <p class="caps-label">Государственный Военный Госпиталь&ensp;&bull;&ensp;Основан в 1946</p>
-        <div class="silver-line" style="margin: 0 auto 8mm;"></div>
-        <h1>Пока мир восхищается<br>вашим образом —<br>мы следим за тем,<br>что его создаёт</h1>
-        <div class="silver-line" style="margin: 0 auto 6mm;"></div>
-        <p class="subtitle">Традиционная китайская медицина. <br>Остров Хайнань, Санья.</p>
+        <p class="cover-title">Государственный<br>военный госпиталь</p>
+        <p class="cover-founded">Основан в 1946 году</p>
+        <div class="silver-line" style="margin: 5mm auto;"></div>
+        <p class="subtitle">Традиционная китайская медицина.<br>Остров Хайнань, Санья,<br>залив Санья Вань.</p>
       </div>
     </div>
 
